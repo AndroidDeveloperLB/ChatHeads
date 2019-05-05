@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 /**
  * Standard settings screen.
  * It allows to enable or disable the head service.
@@ -22,12 +24,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         addPreferencesFromResource(R.xml.settings);
         enableHeadServiceCheckbox(false);
-
         mPermissionChecker = new PermissionChecker(getActivity());
-        if(!mPermissionChecker.isRequiredPermissionGranted()){
+        if (!mPermissionChecker.isRequiredPermissionGranted()) {
             enableHeadServiceCheckbox(false);
             Intent intent = mPermissionChecker.createRequiredPermissionIntent();
             startActivityForResult(intent, PermissionChecker.REQUIRED_PERMISSION_REQUEST_CODE);
@@ -62,9 +62,9 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if(SERVICE_ENABLED_KEY.equals(key)) {
+        if (SERVICE_ENABLED_KEY.equals(key)) {
             boolean enabled = sharedPreferences.getBoolean(key, false);
-            if(enabled) {
+            if (enabled) {
                 startHeadService();
             } else {
                 stopHeadService();
@@ -78,7 +78,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
     private void startHeadService() {
         Context context = getActivity();
-        context.startService(new Intent(context, HeadService.class));
+        ContextCompat.startForegroundService(context, new Intent(context, HeadService.class));
     }
 
     private void stopHeadService() {
