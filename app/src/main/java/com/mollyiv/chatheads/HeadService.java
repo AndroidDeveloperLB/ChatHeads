@@ -31,15 +31,6 @@ public class HeadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         logServiceStarted();
-        //final ClipboardManager manager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        //manager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
-        //    @Override
-        //    public void onPrimaryClipChanged() {
-        //        Log.d("AppLog", "changed to:" + manager.getText());
-        //        // or this for the textview:
-        //        // textView.setText(manager.getText());
-        //    }
-        //});
         initHeadLayer();
         PendingIntent pendingIntent = createPendingIntent();
         Notification notification = createNotification(pendingIntent);
